@@ -9,7 +9,7 @@ class FormConnect extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.green[300]?.withOpacity(0.5),
+        color: Colors.green[300]?.withValues(alpha: 0.5),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: const Column(
@@ -77,7 +77,7 @@ class BtnConnect extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.green[300]?.withOpacity(0.5),
+          color: Colors.green[300]?.withValues(alpha: 0.5),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),

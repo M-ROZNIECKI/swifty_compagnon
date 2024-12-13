@@ -7,7 +7,7 @@ class MyOAuth2Client extends OAuth2Client {
         required super.customUriScheme
       }
     ): super(
-      authorizeUrl: 'https://...', //Your service's authorization url
-      tokenUrl: 'https://...'
+      authorizeUrl: 'https://api.intra.42.fr', //Your service's authorization url
+      tokenUrl: 'https://api.intra.42.fr/oauth/token'
   );
 }

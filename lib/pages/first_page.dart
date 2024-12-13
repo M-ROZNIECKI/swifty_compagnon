@@ -1,17 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:oauth2_client/access_token_response.dart';
 import '../classes/form_connect.dart';
+import '../classes/oauth/my_oauth_client.dart';
 
-class MyHomePage extends StatelessWidget {
+
+Future<AccessTokenResponse> fetchAppAccessToken(MyOAuth2Client client) async {
+  final response = await client.getTokenWithClientCredentialsFlow(
+      clientId: 'XXX', //Your client id
+      clientSecret: 'XXX'
+  );
+
+  if (response.httpStatusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then we return the access token.
+    return response;
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception("http status code: ${response.httpStatusCode}\nerror: ${response.error}\nerror description: ${response.errorDescription}");
+  }
+}
+
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
   final String title;
-  //final myController = TextEditingController();
+
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  MyOAuth2Client client = MyOAuth2Client(redirectUri: '', customUriScheme: '');
+  late Future<AccessTokenResponse> tknResp;
+
+  //void _incrementCounter() {
+  //  setState(() {
+  //  });
+  //}
+
+  @override
+  void initState() async {
+    super.initState();
+    tknResp = fetchAppAccessToken(client);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: MyAppBar(title: title),
+      appBar: MyAppBar(title: widget.title),
       body: const DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -40,7 +80,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.black.withOpacity(0.6),
+      backgroundColor: Colors.black.withValues(alpha: 0.6),
       title: Text(
         title,
         style: const TextStyle(
