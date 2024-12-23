@@ -6,8 +6,8 @@ import '../classes/oauth/my_oauth_client.dart';
 
 Future<AccessTokenResponse> fetchAppAccessToken(MyOAuth2Client client) async {
   final response = await client.getTokenWithClientCredentialsFlow(
-      clientId: 'XXX', //Your client id
-      clientSecret: 'XXX'
+      clientId: '', //Your client id
+      clientSecret: ''
   );
 
   if (response.httpStatusCode == 200) {
@@ -28,10 +28,10 @@ class MyHomePage extends StatefulWidget {
 
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePage();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePage extends State<MyHomePage> {
 
   MyOAuth2Client client = MyOAuth2Client(redirectUri: '', customUriScheme: '');
   late Future<AccessTokenResponse> tknResp;
@@ -42,8 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
   //}
 
   @override
-  void initState() async {
-    super.initState();
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
     tknResp = fetchAppAccessToken(client);
   }
 

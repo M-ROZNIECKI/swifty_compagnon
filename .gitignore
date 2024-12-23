@@ -7,3 +7,5 @@ ios/Flutter/flutter_export_environment.sh
 linux/flutter/ephemeral/
 macos/Flutter/ephemeral/
 windows/flutter/ephemeral/
+build/
+android/local.properties
