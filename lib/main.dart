@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
-import 'pages/first_page.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
+import 'pages/profile.dart';
+import 'pages/search.dart';
+import 'classes/provider/api_provider.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "assets/conf/conf");
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+        create: (_) => ApiProvider(),
+    )
+  ],
+  child: const MyApp()
+  )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -17,7 +30,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Swifty Companion'),
+      home: const SearchView(),
+      routes: {
+        "/profile": (context) => const ProfileView(),
+        "/search": (context) => const SearchView(),
+      },
     );
   }
 }
