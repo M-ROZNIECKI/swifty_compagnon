@@ -25,7 +25,7 @@ Future<List<UserSearchAlbum>> searchPseudo(String query, String token) async {
   return [];
 }
 
-Future<List<UserSearchAlbum>> getUser(String login, String token) async {
+Future<UserAlbum?> getUser(String login, String token) async {
   final url = Uri.https("api.intra.42.fr", "v2/users/$login");
 
   try {
@@ -33,13 +33,11 @@ Future<List<UserSearchAlbum>> getUser(String login, String token) async {
       "Authorization": "bearer $token"
     });
     if (response.statusCode == 200) {
-      final List<dynamic> users = jsonDecode(response.body);
-      return users.map(
-              (user) => UserAlbum.fromJson(user)
-      ).toList();
+      final Map<String, dynamic> user = jsonDecode(response.body);
+      return UserAlbum.fromJson(user);
     }
   } catch (e) {
     log("Unknown error: $e");
   }
-  return [];
+  return null;
 }

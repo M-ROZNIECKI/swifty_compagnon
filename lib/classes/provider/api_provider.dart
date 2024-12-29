@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oauth2_client/access_token_response.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:swifty_companion/classes/albums/user_album.dart';
 import 'package:swifty_companion/classes/albums/user_search_album.dart';
 import '../oauth/my_oauth_client.dart';
 import '../services/api_request.dart';
@@ -41,10 +42,13 @@ class ApiProvider with ChangeNotifier{
     return await searchPseudo(query, token!);
   }
 
-  Future<List<UserSearchAlbum>> getProfile(String query) async{
+  Future<UserAlbum?> getProfile() async{
+    if (selectedLogin == null) {
+      return null;
+    }
     await checkToken();
     String? token = tknResp?.accessToken;
-    return await getUser(query, token!);
+    return await getUser(selectedLogin!, token!);
   }
 
   void setLogin(String login) {

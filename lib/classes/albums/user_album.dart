@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'user_search_album.dart';
 
 const maxSkillLevel = 20;
@@ -34,9 +33,13 @@ class UserAlbum extends UserSearchAlbum {
 
   factory UserAlbum.fromJson(Map<String, dynamic> user) {
     final allCursus = user['cursus_users'] as List<dynamic>;
-    final mainCursus = allCursus.firstWhere(
-        (cursus) => cursus['cursus']['kind'] == 'main'
-    );
+    Map<String, dynamic>? mainCursus;
+    if (allCursus.isNotEmpty) {
+      mainCursus = allCursus.firstWhere(
+              (cursus) => cursus['cursus']['kind'] == 'main',
+          orElse: () => null
+      );
+    }
 
     final level = mainCursus == null ? null : mainCursus['level'] as double;
 
@@ -98,7 +101,7 @@ class Skill {
 class Project {
   final int id;
   final String name;
-  final Bool validated;
+  final bool validated;
   final int finalMark;
 
   const Project({
