@@ -92,7 +92,7 @@ class Skill {
   });
 
   factory Skill.fromJson(Map<String, dynamic> skill) {
-    final level = skill['level'] as double;
+    final level = (skill['level'] as double) > 20? 20:skill['level'] as double;// protection contre staff
     final percentage = (level * 100) ~/ maxSkillLevel; //~/ Divide, returning an integer result
     return Skill(id: skill['id'], name: skill['name'], level: level.toStringAsFixed(2), percentage: percentage);
   }
@@ -115,8 +115,8 @@ class Project {
     return Project(
         id: project['project']['id'],
         name: project['project']['name'],
-        validated: project['validated?'],
-        finalMark: project['final_mark']
+        validated: project['validated?']??false,
+        finalMark: (project['final_mark']??0) > 125?125:project['final_mark']??0 // protection contre staff
     );
   }
 }
